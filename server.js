@@ -55,9 +55,15 @@ mongo.connect(process.env.DATABASE, (err, db) => {
         /*
         *  ADD YOUR CODE BELOW
         */
+        app.route('/auth/github')
+          .get((req, res) => {
+
+          })
       
-      
-      
+        app.route('/auth/github/callback')
+          .get((req, res) => {
+            
+          })
       
       
       
