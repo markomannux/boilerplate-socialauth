@@ -68,9 +68,7 @@ mongo.connect(process.env.DATABASE, (err, db) => {
 
 
         app.route('/auth/github')
-          .get((req, res) => {
-
-          })
+          .get(passport.authenticate('github'));
       
         app.route('/auth/github/callback')
           .get(passport.authenticate('github', { failureRedirect: '/' }), (req, res) => {
