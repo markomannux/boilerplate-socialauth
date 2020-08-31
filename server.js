@@ -59,7 +59,7 @@ mongo.connect(process.env.DATABASE, (err, db) => {
         passport.use(new GitHubStrategy({
           clientID: process.env.GITHUB_CLIENT_ID,
           clientSecret: process.env.GITHUB_CLIENT_SECRET,
-          callbackUrl: 'https://boilerplate-socialauth.markomannux.repl.co'
+          callbackURL: 'https://boilerplate-socialauth.markomannux.repl.co/auth/github/callback'
         },
           function(accessToken, refreshToken, profile, cb) {
             console.log(profile);
