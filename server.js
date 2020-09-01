@@ -44,7 +44,7 @@ mongo.connect(process.env.DATABASE, (err, db) => {
         });
 
         passport.deserializeUser((id, done) => {
-            db.collection('socialusers').findOne(
+            db.db('socialauth').collection('socialusers').findOne(
                 {id: id},
                 (err, doc) => {
                     done(null, doc);
@@ -63,14 +63,14 @@ mongo.connect(process.env.DATABASE, (err, db) => {
         },
           function(accessToken, refreshToken, profile, cb) {
             console.log(profile);
-            db.collection('socialusers').findAndModify(
+            db.db('socialauth').collection('socialusers').findAndModify(
               {id: profile.id},
               {},
               {$setOnInsert: {
                 id: profile.id,
                 name: profile.displayName || 'John Doe',
                 photo: profile.photos[0].value || '',
-                email: profile.emails[0].value || 'No public email',
+                email: profile.email || 'No public email',
                 created_on: new Date(),
                 provider: profile.provider || ''
               }, $set: {
@@ -80,6 +80,10 @@ mongo.connect(process.env.DATABASE, (err, db) => {
               }},
               {upsert: true, new: true},
               (err, doc) => {
+                if (err) {
+                  console.log(err);
+                  return;
+                }
                 return cb(null, doc.value);
               }
             )
